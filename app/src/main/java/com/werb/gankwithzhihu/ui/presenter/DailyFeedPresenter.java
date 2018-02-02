@@ -13,6 +13,7 @@ import com.werb.gankwithzhihu.ui.base.BasePresenter;
 import com.werb.gankwithzhihu.ui.view.IDailyFeedView;
 
 import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action1;
 import rx.schedulers.Schedulers;
 
 /**
@@ -47,9 +48,16 @@ public class DailyFeedPresenter extends BasePresenter<IDailyFeedView> {
             dailyApi.getDailyFeedDetail(id,num)
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(dailyTimeLine -> {
-                        disPlayDailyTimeLine(context,dailyTimeLine,mRecyclerView,dailyFeedView);
-                    },this::loadError);
+                    .subscribe(
+                            new Action1<DailyTimeLine>() {
+                                @Override
+                                public void call(DailyTimeLine dailyTimeLine) {
+                                    disPlayDailyTimeLine(context, dailyTimeLine, mRecyclerView, dailyFeedView);
+                                }
+                            })
+                           /* dailyTimeLine -> {
+                                disPlayDailyTimeLine(context, dailyTimeLine, mRecyclerView, dailyFeedView);
+                            }, this::loadError)*/;
         }
     }
 
@@ -100,7 +108,13 @@ public class DailyFeedPresenter extends BasePresenter<IDailyFeedView> {
                         if(has_more.equals("true")) {
                             isLoadMore = true;
                             dailyFeedView.setDataRefresh(true);
-                            new Handler().postDelayed(() -> getDailyFeedDetail(d_id,next_pager), 1000);
+                            new Handler().postDelayed(
+                                    new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            getDailyFeedDetail(d_id,next_pager);
+                                        }
+                                    } , 1000);
                         }
                     }
                 }

@@ -4,6 +4,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v4.widget.SwipeRefreshLayout.OnRefreshListener;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -13,6 +14,7 @@ import android.view.MenuItem;
 import com.werb.gankwithzhihu.R;
 
 import butterknife.ButterKnife;
+import butterknife.Unbinder;
 
 /**
  * Created by Werb on 2016/7/25.
@@ -27,6 +29,7 @@ public abstract class MVPBaseActivity<V, T extends BasePresenter<V>> extends App
     protected Toolbar mToolbar;
     private SwipeRefreshLayout mRefreshLayout;
     private boolean mIsRequestDataRefresh = false;
+    private Unbinder unbinder=null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +41,7 @@ public abstract class MVPBaseActivity<V, T extends BasePresenter<V>> extends App
         }
         setContentView(provideContentViewId());//布局
         ButterKnife.bind(this);
+        unbinder=ButterKnife.bind(this);
 
         mAppBar = (AppBarLayout) findViewById(R.id.app_bar_layout);
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -65,8 +69,14 @@ public abstract class MVPBaseActivity<V, T extends BasePresenter<V>> extends App
                     R.color.refresh_progress_2, R.color.refresh_progress_3);
             mRefreshLayout.setProgressViewOffset(true, 0, (int) TypedValue
                     .applyDimension(TypedValue.COMPLEX_UNIT_DIP, 24, getResources().getDisplayMetrics()));
-            mRefreshLayout.setOnRefreshListener(this::requestDataRefresh);
-        }
+            mRefreshLayout.setOnRefreshListener(new OnRefreshListener(){
+
+                @Override
+                public void onRefresh() {
+                    requestDataRefresh();
+                }
+            });
+    }
     }
 
     public void requestDataRefresh() {
@@ -80,11 +90,15 @@ public abstract class MVPBaseActivity<V, T extends BasePresenter<V>> extends App
         }
         if (!requestDataRefresh) {
             mIsRequestDataRefresh = false;
-            mRefreshLayout.postDelayed(() -> {
-                if (mRefreshLayout != null) {
-                    mRefreshLayout.setRefreshing(false);
-                }
-            }, 1000);
+            mRefreshLayout.postDelayed(
+                    new Runnable() {
+                        @Override
+                        public void run() {
+                            if (mRefreshLayout != null) {
+                                mRefreshLayout.setRefreshing(false);
+                            }
+                        }
+                    }, 1000);
         } else {
             mRefreshLayout.setRefreshing(true);
         }
@@ -96,6 +110,7 @@ public abstract class MVPBaseActivity<V, T extends BasePresenter<V>> extends App
         if(mPresenter!=null) {
             mPresenter.detachView();
         }
+        unbinder.unbind();
     }
 
     @Override

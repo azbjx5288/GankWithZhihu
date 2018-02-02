@@ -19,7 +19,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.OnClick;
 import uk.co.senab.photoview.PhotoViewAttacher;
 
@@ -38,7 +38,7 @@ public class PictureActivity extends MVPBaseActivity {
     private String img_url;
     private String img_desc;
 
-    @Bind(R.id.iv_meizhi_pic)
+    @BindView(R.id.iv_meizhi_pic)
     ImageView iv_meizhi_pic;
     @OnClick(R.id.save_img) void saveImg(){
         saveImage();

@@ -11,7 +11,7 @@ import com.werb.gankwithzhihu.R;
 import com.werb.gankwithzhihu.ui.base.BasePresenter;
 import com.werb.gankwithzhihu.ui.base.MVPBaseActivity;
 
-import butterknife.Bind;
+import butterknife.BindView;
 
 /**
  * Created by Werb on 2016/9/6.
@@ -21,9 +21,9 @@ import butterknife.Bind;
  */
 public class AboutMeActivity extends MVPBaseActivity implements View.OnClickListener {
 
-    @Bind(R.id.tv_github)
+    @BindView(R.id.tv_github)
     TextView tv_github;
-    @Bind(R.id.tv_blog)
+    @BindView(R.id.tv_blog)
     TextView tv_blog;
 
     public CollapsingToolbarLayout collapsingToolbarLayout;

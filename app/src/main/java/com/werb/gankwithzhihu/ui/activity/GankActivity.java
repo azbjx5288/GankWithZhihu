@@ -13,7 +13,7 @@ import com.werb.gankwithzhihu.ui.view.IGankView;
 
 import java.util.Calendar;
 
-import butterknife.Bind;
+import butterknife.BindView;
 
 /**
  * Created by Werb on 2016/8/30.
@@ -29,7 +29,7 @@ public class GankActivity extends MVPBaseActivity<IGankView,GankPresenter> imple
     private int month;
     private int day;
 
-    @Bind(R.id.gank_list)
+    @BindView(R.id.gank_list)
     RecyclerView gank_list;
 
     @Override

@@ -9,7 +9,8 @@ import com.werb.gankwithzhihu.R;
 import com.werb.gankwithzhihu.ui.base.MVPBaseFragment;
 import com.werb.gankwithzhihu.ui.presenter.DailyFgPresenter;
 import com.werb.gankwithzhihu.ui.view.IDailyFgView;
-import butterknife.Bind;
+
+import butterknife.BindView;
 
 /**
  * Created by Werb on 2016/9/2.
@@ -20,7 +21,7 @@ import butterknife.Bind;
 public class DailyFragment extends MVPBaseFragment<IDailyFgView,DailyFgPresenter> implements IDailyFgView {
 
     private LinearLayoutManager mLayoutManager;
-    @Bind(R.id.content_list)
+    @BindView(R.id.content_list)
     RecyclerView content_list;
 
     @Override

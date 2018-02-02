@@ -11,7 +11,7 @@ import com.werb.gankwithzhihu.ui.base.MVPBaseFragment;
 import com.werb.gankwithzhihu.ui.presenter.ZhihuFgPresenter;
 import com.werb.gankwithzhihu.ui.view.IZhihuFgView;
 
-import butterknife.Bind;
+import butterknife.BindView;
 
 /**
  * Created by Werb on 2016/8/18.
@@ -22,7 +22,7 @@ import butterknife.Bind;
 public class ZhihuFragment extends MVPBaseFragment<IZhihuFgView,ZhihuFgPresenter> implements IZhihuFgView {
 
     private LinearLayoutManager mLayoutManager;
-    @Bind(R.id.content_list)
+    @BindView(R.id.content_list)
     RecyclerView content_list;
 
     @Override

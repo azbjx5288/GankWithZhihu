@@ -28,7 +28,7 @@ public class GankWebPresenter extends BasePresenter<IGankWebView> {
     public void setWebView(String url){
 
         IGankWebView urlView = getView();
-        ProgressBar progressBar = urlView.getProgressBar();
+       final ProgressBar progressBar = urlView.getProgressBar();
         WebView webView = urlView.getWebView();
 
         WebSettings settings = webView.getSettings();

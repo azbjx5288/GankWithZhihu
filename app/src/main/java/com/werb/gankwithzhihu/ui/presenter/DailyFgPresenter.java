@@ -12,7 +12,9 @@ import com.werb.gankwithzhihu.ui.adapter.DailyListAdapter;
 import com.werb.gankwithzhihu.ui.base.BasePresenter;
 import com.werb.gankwithzhihu.ui.view.IDailyFgView;
 
+import rx.Observer;
 import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action1;
 import rx.schedulers.Schedulers;
 
 /**
@@ -46,13 +48,38 @@ public class DailyFgPresenter extends BasePresenter<IDailyFgView> {
             dailyApi.getDailyTimeLine(num)
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(dailyTimeLine -> {
-                        if(dailyTimeLine.getMeta().getMsg().equals("success")){
-                            disPlayDailyTimeLine(context,dailyTimeLine,mRecyclerView,dailyFgView);
-                        }
-                    },this::loadError);
-        }
-    }
+                    .subscribe(
+                            /*new Action1<DailyTimeLine>() {
+                                @Override
+                                public void call(DailyTimeLine dailyTimeLine) {
+                                    if (dailyTimeLine.getMeta().getMsg().equals("success")) {
+                                        disPlayDailyTimeLine(context, dailyTimeLine, mRecyclerView, dailyFgView);
+                                    }
+                                }*/
+                            new Observer<DailyTimeLine>() {
+                                @Override
+                                public void onCompleted() {
+
+                                }
+
+                                @Override
+                                public void onError(Throwable e) {
+                                    loadError(e);
+                                }
+
+                                @Override
+                                public void onNext(DailyTimeLine dailyTimeLine) {
+                                    if (dailyTimeLine.getMeta().getMsg().equals("success")) {
+                                        disPlayDailyTimeLine(context, dailyTimeLine, mRecyclerView, dailyFgView);
+                                    }
+                                }
+                           /* dailyTimeLine -> {
+                                if (dailyTimeLine.getMeta().getMsg().equals("success")) {
+                                    disPlayDailyTimeLine(context, dailyTimeLine, mRecyclerView, dailyFgView);
+                                }
+                            }, this::loadError)*/;
+        });
+    }}
 
     private void loadError(Throwable throwable) {
         throwable.printStackTrace();
@@ -105,7 +132,14 @@ public class DailyFgPresenter extends BasePresenter<IDailyFgView> {
                             isLoadMore = true;
                         }
                         adapter.updateLoadStatus(adapter.LOAD_MORE);
-                        new Handler().postDelayed(() -> getDailyTimeLine(next_pager), 1000);
+                        new Handler().postDelayed(
+                                new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        getDailyTimeLine(next_pager);
+                                    }
+                                }
+                        , 1000);
                     }
                 }
             }

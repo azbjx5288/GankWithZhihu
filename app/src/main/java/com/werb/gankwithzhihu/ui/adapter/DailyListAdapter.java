@@ -26,7 +26,8 @@ import com.werb.gankwithzhihu.widget.TopStoriesViewPager;
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
@@ -180,9 +181,9 @@ public class DailyListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
      * footer view
      */
     class FooterViewHolder extends RecyclerView.ViewHolder {
-        @Bind(R.id.tv_load_prompt)
+        @BindView(R.id.tv_load_prompt)
         TextView tv_load_prompt;
-        @Bind(R.id.progress)
+        @BindView(R.id.progress)
         ProgressBar progress;
 
         public FooterViewHolder(View itemView) {
@@ -223,11 +224,11 @@ public class DailyListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
      */
     class TopStoriesViewHolder extends RecyclerView.ViewHolder {
 
-        @Bind(R.id.vp_top_stories)
+        @BindView(R.id.vp_top_stories)
         TopStoriesViewPager vp_top_stories;
-        @Bind(R.id.tv_top_title)
+        @BindView(R.id.tv_top_title)
         TextView tv_top_title;
-        @Bind(R.id.tv_tag)
+        @BindView(R.id.tv_tag)
         TextView tv_tag;
 
         public TopStoriesViewHolder(View itemView) {
@@ -247,9 +248,13 @@ public class DailyListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                 topList.add(t);
             }
 
-            vp_top_stories.init(topList, tv_top_title, item -> {
-                Intent intent = GankWebActivity.newIntent(context, item.getUrl());
-                context.startActivity(intent);
+            vp_top_stories.init(topList, tv_top_title, new TopStoriesViewPager.ViewPagerClickListenner(){
+
+                @Override
+                public void onClick(TopStories item) {
+                    Intent intent = GankWebActivity.newIntent(context, item.getUrl());
+                    context.startActivity(intent);
+                }
             });
         }
     }
@@ -259,13 +264,13 @@ public class DailyListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
      */
     class HeadlineViewHolder extends RecyclerView.ViewHolder {
 
-        @Bind(R.id.tv_headline_1)
+        @BindView(R.id.tv_headline_1)
         TextView tv_headline_1;
-        @Bind(R.id.tv_headline_2)
+        @BindView(R.id.tv_headline_2)
         TextView tv_headline_2;
-        @Bind(R.id.tv_headline_3)
+        @BindView(R.id.tv_headline_3)
         TextView tv_headline_3;
-        @Bind(R.id.card_headline)
+        @BindView(R.id.card_headline)
         CardView card_headline;
 
         public HeadlineViewHolder(View itemView) {
@@ -273,15 +278,19 @@ public class DailyListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             ButterKnife.bind(this, itemView);
         }
 
-        public void bindItem(Daily daily) {
+        public void bindItem(final Daily daily) {
             List<HeadLine> headLines = daily.getList();
             tv_headline_1.setText(headLines.get(0).getDescription());
             tv_headline_2.setText(headLines.get(1).getDescription());
             tv_headline_3.setText(headLines.get(2).getDescription());
 
-            card_headline.setOnClickListener(v -> {
-                Intent intent = GankWebActivity.newIntent(context, daily.getPost().getAppview());
-                context.startActivity(intent);
+            card_headline.setOnClickListener(
+                    new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Intent intent = GankWebActivity.newIntent(context, daily.getPost().getAppview());
+                            context.startActivity(intent);
+                        }
             });
         }
     }
@@ -291,15 +300,15 @@ public class DailyListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
      */
     class Feed_1_ViewHolder extends RecyclerView.ViewHolder {
 
-        @Bind(R.id.tv_feed_1_title)
+        @BindView(R.id.tv_feed_1_title)
         TextView tv_feed_1_title;
-        @Bind(R.id.tv_feed_1_type)
+        @BindView(R.id.tv_feed_1_type)
         TextView tv_feed_1_type;
-        @Bind(R.id.iv_feed_1_type_icon)
+        @BindView(R.id.iv_feed_1_type_icon)
         ImageView iv_feed_1_type_icon;
-        @Bind(R.id.iv_feed_1_icon)
+        @BindView(R.id.iv_feed_1_icon)
         ImageView iv_feed_1_icon;
-        @Bind(R.id.card_feed_1)
+        @BindView(R.id.card_feed_1)
         CardView card_feed_1;
 
         public Feed_1_ViewHolder(View itemView) {
@@ -310,15 +319,20 @@ public class DailyListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             card_feed_1.setLayoutParams(new LinearLayout.LayoutParams(screenUtil.getScreenWidth(), ViewGroup.LayoutParams.WRAP_CONTENT));
         }
 
-        public void bindItem(Daily daily) {
+        public void bindItem(final Daily daily) {
             tv_feed_1_title.setText(daily.getPost().getTitle());
             tv_feed_1_type.setText(daily.getPost().getCategory().getTitle());
             Glide.with(context).load(daily.getPost().getCategory().getImage_lab()).centerCrop().into(iv_feed_1_type_icon);
             Glide.with(context).load(daily.getImage()).centerCrop().into(iv_feed_1_icon);
 
-            card_feed_1.setOnClickListener(v -> {
-                Intent intent = GankWebActivity.newIntent(context, daily.getPost().getAppview());
-                context.startActivity(intent);
+            card_feed_1.setOnClickListener(
+                    new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Intent intent = GankWebActivity.newIntent(context, daily.getPost().getAppview());
+                            context.startActivity(intent);
+                        }
+
             });
         }
     }
@@ -328,17 +342,17 @@ public class DailyListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
      */
     class Feed_0_ViewHolder extends RecyclerView.ViewHolder {
 
-        @Bind(R.id.iv_feed_0_icon)
+        @BindView(R.id.iv_feed_0_icon)
         ImageView iv_feed_0_icon;
-        @Bind(R.id.tv_feed_0_title)
+        @BindView(R.id.tv_feed_0_title)
         TextView tv_feed_0_title;
-        @Bind(R.id.tv_feed_0_desc)
+        @BindView(R.id.tv_feed_0_desc)
         TextView tv_feed_0_desc;
-        @Bind(R.id.iv_feed_0_type)
+        @BindView(R.id.iv_feed_0_type)
         ImageView iv_feed_0_type;
-        @Bind(R.id.tv_Feed_0_type)
+        @BindView(R.id.tv_Feed_0_type)
         TextView tv_Feed_0_type;
-        @Bind(R.id.card_layout)
+        @BindView(R.id.card_layout)
         CardView card_layout;
 
         public Feed_0_ViewHolder(View itemView) {
@@ -349,23 +363,28 @@ public class DailyListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             card_layout.setLayoutParams(new LinearLayout.LayoutParams(screenUtil.getScreenWidth(), ViewGroup.LayoutParams.WRAP_CONTENT));
         }
 
-        public void bindItem(Daily daily) {
+        public void bindItem(final Daily daily) {
             tv_feed_0_title.setText(daily.getPost().getTitle());
             tv_feed_0_desc.setText(daily.getPost().getDescription());
             tv_Feed_0_type.setText(daily.getPost().getCategory().getTitle());
             Glide.with(context).load(daily.getImage()).centerCrop().into(iv_feed_0_icon);
             if (daily.getType() == 0) {
                 Glide.with(context).load(R.drawable.feed_0_icon).centerCrop().into(iv_feed_0_type);
-                card_layout.setOnClickListener(v -> {
-                    Intent intent = DailyFeedActivity.newIntent(context, daily.getPost().getId(), daily.getPost().getDescription(), daily.getPost().getTitle(), daily.getImage());
-                    context.startActivity(intent);
+                card_layout.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = DailyFeedActivity.newIntent(context, daily.getPost().getId(), daily.getPost().getDescription(), daily.getPost().getTitle(), daily.getImage());
+                        context.startActivity(intent);
+                    }
                 });
             } else if (daily.getType() == 2) {
                 Glide.with(context).load(R.drawable.feed_1_icon).centerCrop().into(iv_feed_0_type);
-                card_layout.setOnClickListener(v -> {
-                    Intent intent = GankWebActivity.newIntent(context, daily.getPost().getAppview());
-                    context.startActivity(intent);
-                });
+                card_layout.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = GankWebActivity.newIntent(context, daily.getPost().getAppview());
+                        context.startActivity(intent);
+                    }});
             }
 
 

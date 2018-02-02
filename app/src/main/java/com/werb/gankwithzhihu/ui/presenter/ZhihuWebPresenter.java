@@ -14,6 +14,7 @@ import com.werb.gankwithzhihu.ui.base.BasePresenter;
 import com.werb.gankwithzhihu.ui.view.IZhihuWebView;
 
 import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action1;
 import rx.schedulers.Schedulers;
 
 /**
@@ -33,9 +34,13 @@ public class ZhihuWebPresenter extends BasePresenter<IZhihuWebView> {
         zhihuApi.getDetailNews(id)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(news -> {
-                    setWebView(news);
-                },this::loadError);
+                .subscribe(
+                        new Action1<News>() {
+                            @Override
+                            public void call(News news) {
+                                setWebView(news);
+                            }
+                        });
     }
 
     private void loadError(Throwable throwable) {

@@ -15,7 +15,7 @@ import com.werb.gankwithzhihu.widget.SplashView;
 
 import java.util.Random;
 
-import butterknife.Bind;
+import butterknife.BindView;
 
 /**
  * Created by Werb on 2016/8/18.
@@ -29,9 +29,9 @@ public class SplashActivity extends MVPBaseActivity {
 
     private Handler mHandler = new Handler();
 
-    @Bind(R.id.splash_view)
+    @BindView(R.id.splash_view)
     SplashView splash_view;
-    @Bind(R.id.tv_splash_info)
+    @BindView(R.id.tv_splash_info)
     TextView tv_splash_info;
 
     @Override
@@ -49,9 +49,9 @@ public class SplashActivity extends MVPBaseActivity {
     protected void onStart() {
         super.onStart();
 
-        AssetManager mgr=getAssets();//得到AssetManager
+     /*   AssetManager mgr=getAssets();//得到AssetManager
         Typeface tf=Typeface.createFromAsset(mgr, "fonts/rm_albion.ttf");//根据路径得到Typeface
-        tv_splash_info.setTypeface(tf);//设置字体
+        tv_splash_info.setTypeface(tf);//设置字体*/
         startLoadingData();
     }
 
@@ -61,7 +61,13 @@ public class SplashActivity extends MVPBaseActivity {
     private void startLoadingData(){
         // finish "loading data" in a random time between 1 and 3 seconds
         Random random = new Random();
-        mHandler.postDelayed(this::onLoadingDataEnded, 1000 + random.nextInt(2000));
+        mHandler.postDelayed(
+                new Runnable() {
+                    @Override
+                    public void run() {
+                        onLoadingDataEnded();
+                    }
+                }, 1000 + random.nextInt(2000));
     }
 
     private void onLoadingDataEnded(){

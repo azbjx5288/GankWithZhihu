@@ -12,7 +12,7 @@ import com.werb.gankwithzhihu.ui.base.MVPBaseActivity;
 import com.werb.gankwithzhihu.ui.presenter.ZhihuWebPresenter;
 import com.werb.gankwithzhihu.ui.view.IZhihuWebView;
 
-import butterknife.Bind;
+import butterknife.BindView;
 
 /**
  * Created by Werb on 2016/8/18.
@@ -26,13 +26,13 @@ public class ZhihuWebActivity extends MVPBaseActivity<IZhihuWebView,ZhihuWebPres
 
     private String id;
 
-    @Bind(R.id.web_view)
+    @BindView(R.id.web_view)
     WebView web_view;
-    @Bind(R.id.iv_web_img)
+    @BindView(R.id.iv_web_img)
     ImageView iv_web_img;
-    @Bind(R.id.tv_img_title)
+    @BindView(R.id.tv_img_title)
     TextView tv_img_title;
-    @Bind(R.id.tv_img_source)
+    @BindView(R.id.tv_img_source)
     TextView tv_img_source;
 
     @Override

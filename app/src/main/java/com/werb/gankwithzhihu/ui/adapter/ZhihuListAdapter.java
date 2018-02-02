@@ -1,6 +1,7 @@
 package com.werb.gankwithzhihu.ui.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutCompat;
 import android.support.v7.widget.RecyclerView;
@@ -16,13 +17,14 @@ import com.werb.gankwithzhihu.R;
 import com.werb.gankwithzhihu.bean.zhihu.NewsTimeLine;
 import com.werb.gankwithzhihu.bean.zhihu.Stories;
 import com.werb.gankwithzhihu.bean.zhihu.TopStories;
+import com.werb.gankwithzhihu.ui.activity.GankActivity;
 import com.werb.gankwithzhihu.ui.activity.ZhihuWebActivity;
 import com.werb.gankwithzhihu.util.ScreenUtil;
 import com.werb.gankwithzhihu.widget.TopStoriesViewPager;
 
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
@@ -119,9 +121,9 @@ public class ZhihuListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
      * footer view
      */
     class FooterViewHolder extends RecyclerView.ViewHolder {
-        @Bind(R.id.tv_load_prompt)
+        @BindView(R.id.tv_load_prompt)
         TextView tv_load_prompt;
-        @Bind(R.id.progress)
+        @BindView(R.id.progress)
         ProgressBar progress;
 
         public FooterViewHolder(View itemView) {
@@ -162,9 +164,9 @@ public class ZhihuListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
      */
     class TopStoriesViewHolder extends RecyclerView.ViewHolder {
 
-        @Bind(R.id.vp_top_stories)
+        @BindView(R.id.vp_top_stories)
         TopStoriesViewPager vp_top_stories;
-        @Bind(R.id.tv_top_title)
+        @BindView(R.id.tv_top_title)
         TextView tv_top_title;
 
         public TopStoriesViewHolder(View itemView) {
@@ -174,8 +176,12 @@ public class ZhihuListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         }
 
         public void bindItem(List<TopStories> topList) {
-            vp_top_stories.init(topList,tv_top_title,item -> {
-                context.startActivity(ZhihuWebActivity.newIntent(context,item.getId()));
+            vp_top_stories.init(topList,tv_top_title,new TopStoriesViewPager.ViewPagerClickListenner(){
+
+                @Override
+                public void onClick(TopStories item) {
+                    context.startActivity(ZhihuWebActivity.newIntent(context,item.getId()));
+                }
             });
         }
     }
@@ -185,11 +191,11 @@ public class ZhihuListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
      */
     class StoriesViewHolder extends RecyclerView.ViewHolder {
 
-        @Bind(R.id.card_stories)
+        @BindView(R.id.card_stories)
         CardView card_stories;
-        @Bind(R.id.tv_stories_title)
+        @BindView(R.id.tv_stories_title)
         TextView tv_stories_title;
-        @Bind(R.id.iv_stories_img)
+        @BindView(R.id.iv_stories_img)
         ImageView iv_stories_img;
 
         public StoriesViewHolder(View itemView) {
@@ -202,12 +208,19 @@ public class ZhihuListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
         }
 
-        public void bindItem(Stories stories) {
+        public void bindItem(final  Stories stories) {
             tv_stories_title.setText(stories.getTitle());
             String[] images = stories.getImages();
             Glide.with(context).load(images[0]).centerCrop().into(iv_stories_img);
 
-            card_stories.setOnClickListener(v -> context.startActivity(ZhihuWebActivity.newIntent(context,stories.getId())));
+            /*card_stories.setOnClickListener(v -> context.startActivity(ZhihuWebActivity.newIntent(context,stories.getId())));*/
+
+            card_stories.setOnClickListener( new View.OnClickListener() {
+
+                @Override
+                public void onClick(View v) {
+                    context.startActivity(ZhihuWebActivity.newIntent(context,stories.getId()));
+                }});
         }
     }
 

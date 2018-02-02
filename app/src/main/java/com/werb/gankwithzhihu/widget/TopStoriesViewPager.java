@@ -77,7 +77,7 @@ public class TopStoriesViewPager extends RelativeLayout {
 
 	}
 
-	public void init(List<TopStories> items,TextView tv,
+	public void init(final List<TopStories> items,final TextView tv,
 					 ViewPagerClickListenner clickListenner) {
 		this.listenner = clickListenner;
 		images = new ArrayList<>();
@@ -90,11 +90,15 @@ public class TopStoriesViewPager extends RelativeLayout {
 			ViewGroup.LayoutParams layoutParams = new ViewGroup.LayoutParams(
 					LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
 			mImageView.setLayoutParams(layoutParams);
-			mImageView.setOnClickListener(v -> {
+			mImageView.setOnClickListener(
+					new OnClickListener(){
+
+						@Override
+						public void onClick(View v) {
                 if (null != listenner) {
                     listenner.onClick(item);
                 }
-            });
+            }});
 
 			// 得到屏幕的宽度
 			ScreenUtil screenUtil = ScreenUtil.instance(context);
@@ -112,6 +116,7 @@ public class TopStoriesViewPager extends RelativeLayout {
 
 			@Override
 			public void onPageSelected(int position) {
+
 				tv.setText(items.get(position).getTitle());
 			}
 

@@ -6,6 +6,7 @@ import android.widget.Toast;
 
 import com.werb.gankwithzhihu.R;
 import com.werb.gankwithzhihu.bean.gank.Gank;
+import com.werb.gankwithzhihu.bean.gank.GankData;
 import com.werb.gankwithzhihu.ui.adapter.GankActivityAdapter;
 import com.werb.gankwithzhihu.ui.base.BasePresenter;
 import com.werb.gankwithzhihu.ui.view.IGankView;
@@ -13,6 +14,7 @@ import com.werb.gankwithzhihu.ui.view.IGankView;
 import java.util.List;
 
 import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action1;
 import rx.schedulers.Schedulers;
 
 /**
@@ -38,9 +40,13 @@ public class GankPresenter extends BasePresenter<IGankView> {
             gankApi.getGankData(year, month, day)
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(gankData -> {
-                        displayGankList(context,gankData.results.getAllResults(),gankView,recyclerView);
-                    }, this::loadError);
+                    .subscribe(
+                            new Action1<GankData>() {
+                                @Override
+                                public void call(GankData gankData) {
+                                    displayGankList(context, gankData.results.getAllResults(), gankView, recyclerView);
+                                }
+                            });
         }
     }
 

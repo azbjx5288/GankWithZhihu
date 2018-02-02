@@ -54,7 +54,16 @@ public abstract class MVPBaseFragment<V, T extends BasePresenter<V>> extends Fra
                     R.color.refresh_progress_2,R.color.refresh_progress_3);
             mRefreshLayout.setProgressViewOffset(true, 0, (int) TypedValue
                     .applyDimension(TypedValue.COMPLEX_UNIT_DIP, 24,getResources().getDisplayMetrics()));
-            mRefreshLayout.setOnRefreshListener(this::requestDataRefresh);
+            mRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener(){
+
+                                                    @Override
+                                                    public void onRefresh() {
+                                                        requestDataRefresh();
+                                                    }
+                                                }
+
+
+                   );
         }
     }
 
@@ -69,10 +78,15 @@ public abstract class MVPBaseFragment<V, T extends BasePresenter<V>> extends Fra
         }
         if (!requestDataRefresh) {
             mIsRequestDataRefresh = false;
-            mRefreshLayout.postDelayed(() -> {
-                if (mRefreshLayout != null) {
-                    mRefreshLayout.setRefreshing(false);
-                }
+            mRefreshLayout.postDelayed(
+                    new Runnable() {
+                        @Override
+                        public void run() {
+                            if (mRefreshLayout != null) {
+                                mRefreshLayout.setRefreshing(false);
+                            }
+                        }
+
             }, 1000);
         } else {
             mRefreshLayout.setRefreshing(true);

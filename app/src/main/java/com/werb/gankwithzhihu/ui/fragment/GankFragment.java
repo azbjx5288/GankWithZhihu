@@ -11,7 +11,8 @@ import com.werb.gankwithzhihu.ui.base.MVPBaseFragment;
 import com.werb.gankwithzhihu.ui.presenter.GankFgPresenter;
 import com.werb.gankwithzhihu.ui.view.IGankFgView;
 
-import butterknife.Bind;
+import butterknife.BindView;
+
 
 /**
  * Created by Werb on 2016/8/18.
@@ -23,7 +24,7 @@ public class GankFragment extends MVPBaseFragment<IGankFgView,GankFgPresenter> i
 
     private GridLayoutManager gridLayoutManager;
 
-    @Bind(R.id.content_list)
+    @BindView(R.id.content_list)
     RecyclerView content_list;
 
     @Override

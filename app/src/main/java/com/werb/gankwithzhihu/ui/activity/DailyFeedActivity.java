@@ -14,7 +14,7 @@ import com.werb.gankwithzhihu.ui.base.MVPBaseActivity;
 import com.werb.gankwithzhihu.ui.presenter.DailyFeedPresenter;
 import com.werb.gankwithzhihu.ui.view.IDailyFeedView;
 
-import butterknife.Bind;
+import butterknife.BindView;
 
 /**
  * Created by Werb on 2016/9/6.
@@ -34,13 +34,13 @@ public class DailyFeedActivity extends MVPBaseActivity<IDailyFeedView,DailyFeedP
     private String title;
     private String img;
 
-    @Bind(R.id.iv_feed_img)
+    @BindView(R.id.iv_feed_img)
     ImageView iv_feed_img;
-    @Bind(R.id.tv_feed_title)
+    @BindView(R.id.tv_feed_title)
     TextView tv_feed_title;
-    @Bind(R.id.tv_feed_desc)
+    @BindView(R.id.tv_feed_desc)
     TextView tv_feed_desc;
-    @Bind(R.id.feed_list)
+    @BindView(R.id.feed_list)
     RecyclerView feed_list;
 
     private GridLayoutManager gridLayoutManager;

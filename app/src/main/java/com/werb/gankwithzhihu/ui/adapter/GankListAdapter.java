@@ -21,7 +21,7 @@ import com.werb.gankwithzhihu.ui.activity.PictureActivity;
 
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
@@ -61,11 +61,11 @@ public class GankListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
     class GankMeiZhiViewHolder extends RecyclerView.ViewHolder{
 
-        @Bind(R.id.card_meizhi)
+        @BindView(R.id.card_meizhi)
         CardView card_meizhi;
-        @Bind(R.id.iv_meizhi)
+        @BindView(R.id.iv_meizhi)
         ImageView iv_meizhi;
-        @Bind(R.id.tv_meizhi_title)
+        @BindView(R.id.tv_meizhi_title)
         TextView tv_meizhi_title;
 
         public GankMeiZhiViewHolder(View itemView) {
@@ -75,28 +75,35 @@ public class GankListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
         }
 
-        public void bindItem(Gank meizhi){
+        public void bindItem(final Gank meizhi){
             tv_meizhi_title.setText(meizhi.getDesc());
             Glide.with(context).load(meizhi.getUrl()).centerCrop().into(iv_meizhi);
 
             //点击图片
-            iv_meizhi.setOnClickListener(v -> {
-                Intent intent = PictureActivity.newIntent(context,meizhi.getUrl(),meizhi.getDesc());
-                ActivityOptionsCompat optionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation((Activity) context,iv_meizhi,PictureActivity.TRANSIT_PIC);
-                // Android 5.0+
-                try {
-                    ActivityCompat.startActivity((Activity) context,intent,optionsCompat.toBundle());
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    context.startActivity(intent);
-                }
-            });
+            iv_meizhi.setOnClickListener(
+                    new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+
+                        Intent intent = PictureActivity.newIntent(context, meizhi.getUrl(), meizhi.getDesc());
+                        ActivityOptionsCompat optionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation((Activity) context, iv_meizhi, PictureActivity.TRANSIT_PIC);
+                        // Android 5.0+
+                        try {
+                            ActivityCompat.startActivity((Activity) context, intent, optionsCompat.toBundle());
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                            context.startActivity(intent);
+                        }
+                    }});
 
             //点击card
-            card_meizhi.setOnClickListener(v -> {
+            card_meizhi.setOnClickListener( new View.OnClickListener() {
+
+                @Override
+                public void onClick(View v) {
                 Intent intent = GankActivity.newIntent(context,meizhi.getPublishedAt().getTime());
                 context.startActivity(intent);
-            });
+            }});
         }
     }
 }

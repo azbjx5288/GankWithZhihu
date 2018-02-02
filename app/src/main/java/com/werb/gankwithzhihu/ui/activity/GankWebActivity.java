@@ -11,7 +11,7 @@ import com.werb.gankwithzhihu.ui.base.MVPBaseActivity;
 import com.werb.gankwithzhihu.ui.presenter.GankWebPresenter;
 import com.werb.gankwithzhihu.ui.view.IGankWebView;
 
-import butterknife.Bind;
+import butterknife.BindView;
 
 /**
  * Created by Werb on 2016/8/31.
@@ -23,9 +23,9 @@ public class GankWebActivity extends MVPBaseActivity<IGankWebView,GankWebPresent
 
     public static final String GANK_URL = "gank_url";
 
-    @Bind(R.id.pb_progress)
+    @BindView(R.id.pb_progress)
     ProgressBar pb_progress;
-    @Bind(R.id.url_web)
+    @BindView(R.id.url_web)
     WebView url_web;
 
     private String gank_url;

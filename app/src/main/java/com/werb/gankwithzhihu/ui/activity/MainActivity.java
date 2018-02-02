@@ -19,7 +19,7 @@ import com.werb.gankwithzhihu.ui.fragment.ZhihuFragment;
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 
 /**
  * Created by Werb on 2016/8/18.
@@ -30,9 +30,9 @@ import butterknife.Bind;
 
 public class MainActivity extends MVPBaseActivity {
 
-    @Bind(R.id.tabLayout)
+    @BindView(R.id.tabLayout)
     TabLayout tabLayout;
-    @Bind(R.id.content_viewPager)
+    @BindView(R.id.content_viewPager)
     ViewPager content_viewPager;
 
     private List<MVPBaseFragment> fragmentList;

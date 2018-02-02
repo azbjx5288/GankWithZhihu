@@ -20,6 +20,8 @@ import java.util.List;
 
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action1;
+import rx.functions.Func2;
 import rx.schedulers.Schedulers;
 
 /**
@@ -53,12 +55,21 @@ public class GankFgPresenter extends BasePresenter<IGankFgView> {
                 page = page + 1;
             }
 
-            Observable.zip(gankApi.getMeizhiData(page), gankApi.getVideoData(page), this::creatDesc)
+            Observable.zip(gankApi.getMeizhiData(page), gankApi.getVideoData(page),
+                    new Func2<Meizhi, Video, Object>() {
+                        @Override
+                        public Object call(Meizhi meizhi, Video video) {
+                            return  creatDesc(meizhi,video);
+                        }
+
+
+                    })
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(meizhi1 -> {
-                        displayMeizhi(context, meizhi1.getResults(), gankFgView, mRecyclerView);
-                    },this::loadError);
+                    /*.subscribe(
+                            meizhi1 -> {
+                                displayMeizhi(context, meizhi1.getResults(), gankFgView, mRecyclerView);
+                            }, this::loadError)*/;
         }
 
 
@@ -103,7 +114,15 @@ public class GankFgPresenter extends BasePresenter<IGankFgView> {
                             .getItemCount()) {
                         gankFgView.setDataRefresh(true);
                         isLoadMore = true;
-                        new Handler().postDelayed(() -> getGankData(), 1000);
+                        new Handler().postDelayed(
+                                new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        getGankData();
+                                    }
+                                }
+
+                        , 1000);
                     }
                 }
             }

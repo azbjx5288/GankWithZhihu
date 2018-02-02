@@ -15,7 +15,7 @@ import com.werb.gankwithzhihu.ui.activity.GankWebActivity;
 
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
@@ -74,17 +74,17 @@ public class GankActivityAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
      */
     class GankVideoViewHolder extends RecyclerView.ViewHolder {
 
-        @Bind(R.id.card_gank)
+        @BindView(R.id.card_gank)
         CardView card_gank;
-        @Bind(R.id.iv_type)
+        @BindView(R.id.iv_type)
         ImageView iv_type;
-        @Bind(R.id.tv_type)
+        @BindView(R.id.tv_type)
         TextView tv_type;
-        @Bind(R.id.tv_desc)
+        @BindView(R.id.tv_desc)
         TextView tv_desc;
-        @Bind(R.id.tv_who)
+        @BindView(R.id.tv_who)
         TextView tv_who;
-        @Bind(R.id.iv_type_bg)
+        @BindView(R.id.iv_type_bg)
         ImageView iv_type_bg;
 
         public GankVideoViewHolder(View itemView) {
@@ -92,7 +92,7 @@ public class GankActivityAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             ButterKnife.bind(this, itemView);
         }
 
-        public void bindItem(Gank gank) {
+        public void bindItem(final Gank gank) {
             switch (gank.getType()){
                 case "Android":
                     Glide.with(context).load(R.drawable.android).centerCrop().into(iv_type);
@@ -124,7 +124,16 @@ public class GankActivityAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             tv_desc.setText(gank.getDesc());
             tv_who.setText("via : "+gank.getWho());
 
-            card_gank.setOnClickListener(v -> context.startActivity(GankWebActivity.newIntent(context,gank.getUrl())));
+            card_gank.setOnClickListener(
+
+                    new View.OnClickListener(){
+
+                        @Override
+                        public void onClick(View v) {
+                            context.startActivity(GankWebActivity.newIntent(context,gank.getUrl()));
+                        }
+                    }
+                    );
 
         }
     }

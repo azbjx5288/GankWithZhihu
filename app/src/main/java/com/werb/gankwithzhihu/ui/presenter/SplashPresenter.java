@@ -11,6 +11,7 @@ import com.werb.gankwithzhihu.ui.base.BasePresenter;
 import com.werb.gankwithzhihu.ui.view.ISplashView;
 
 import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action1;
 import rx.schedulers.Schedulers;
 
 /**
@@ -33,12 +34,22 @@ public class SplashPresenter extends BasePresenter<ISplashView> {
         if (splashView != null) {
             coverImg = splashView.getCoverImg();
 
-            zhihuApi.getSplashImage()
+           /* zhihuApi.getSplashImage()
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(splashImage -> {
                         disPlayImage(splashImage,coverImg);
-                    },this::loadError);
+                    },this::loadError);*/
+            zhihuApi.getSplashImage()
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(
+                            new Action1<SplashImage>() {
+                                @Override
+                                public void call(SplashImage splashImage) {
+                                    disPlayImage(splashImage, coverImg);
+                                }
+                            });
         }
     }
 

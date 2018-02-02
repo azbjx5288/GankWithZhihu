@@ -14,7 +14,7 @@ import com.werb.gankwithzhihu.bean.daily.Options;
 
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
@@ -51,13 +51,13 @@ public class DailyFeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
     class FeedOptionViewHolder extends RecyclerView.ViewHolder{
 
-        @Bind(R.id.iv_feed_author_icon)
+        @BindView(R.id.iv_feed_author_icon)
         ImageView iv_feed_author_icon;
-        @Bind(R.id.tv_feed_author_name)
+        @BindView(R.id.tv_feed_author_name)
         TextView tv_feed_author_name;
-        @Bind(R.id.tv_feed_content)
+        @BindView(R.id.tv_feed_content)
         TextView tv_feed_content;
-        @Bind(R.id.card_option)
+        @BindView(R.id.card_option)
         CardView card_option;
 
         public FeedOptionViewHolder(View itemView) {
